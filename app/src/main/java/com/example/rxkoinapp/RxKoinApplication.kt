@@ -2,6 +2,7 @@ package com.example.rxkoinapp
 
 import android.app.Application
 import com.example.rxkoinapp.di.missionDtoMapperModule
+import com.example.rxkoinapp.di.missionServiceModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -14,7 +15,7 @@ class RxKoinApplication: Application() {
         startKoin{
             androidLogger()
             androidContext(this@RxKoinApplication)
-            modules(listOf(missionDtoMapperModule))
+            modules(listOf(missionDtoMapperModule, missionServiceModule))
         }
     }
 
