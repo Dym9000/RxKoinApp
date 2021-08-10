@@ -3,7 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.missions_display.MissionsDisplay">
+    tools:context=".ui.missions_display.MissionsDisplayFragment">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.rxkoinapp.ui.missions_display.MissionDisplayViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

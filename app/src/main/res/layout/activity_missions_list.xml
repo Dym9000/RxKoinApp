@@ -18,7 +18,7 @@
                 android:id="@+id/toolbar_missions_activity"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorOnPrimary"
+                android:background="?attr/colorPrimaryVariant"
                 app:layout_scrollFlags="scroll|enterAlways"
                 android:elevation="@dimen/elevation_toolbar">
 
