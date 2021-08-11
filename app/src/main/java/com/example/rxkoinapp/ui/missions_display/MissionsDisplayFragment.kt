@@ -1,14 +1,13 @@
 package com.example.rxkoinapp.ui.missions_display
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rxkoinapp.R
 import com.example.rxkoinapp.databinding.FragmentMissionsDisplayBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,6 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  *  Design of the UI is not very pleasant for the eyes - I focused more on the technical aspect
  *  of the task, which was to learn Koin, JavaRx and Unit Testing.
  */
+
 class MissionsDisplayFragment : Fragment() {
 
     private val missionViewModel by viewModel<MissionDisplayViewModel>()
@@ -46,15 +46,17 @@ class MissionsDisplayFragment : Fragment() {
         missionAdapter = MissionDisplayAdapter()
         binding.recyclerViewMissionsDisplay.recyclerViewMissions.apply {
             adapter = missionAdapter
-            layoutManager = GridLayoutManager(
-                requireActivity(), 1, RecyclerView.VERTICAL, false)
+            layoutManager = LinearLayoutManager(requireActivity())
         }
     }
 
     private fun setObservers(){
         missionViewModel.missions.observe(viewLifecycleOwner, {
-            Log.d("MainActivity", it[0].missionName)
-            missionAdapter.submitList(it)
+            if(it.data != null){
+                missionAdapter.submitList(it.data)}
+            else{
+                Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
+            }
         })
     }
 }
