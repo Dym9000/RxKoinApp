@@ -1,11 +1,11 @@
 package com.example.rxkoinapp.ui.missions_display
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.rxkoinapp.domain.Mission
 import com.example.rxkoinapp.network.api.MissionsService
+import com.example.rxkoinapp.utils.DataState
 import com.example.rxkoinapp.utils.mapper.GenericMapper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -24,8 +24,8 @@ class MissionDisplayViewModel constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
-    private val _missions = MutableLiveData<List<Mission>>()
-    val missions : LiveData<List<Mission>>
+    private val _missions = MutableLiveData<DataState<List<Mission>>>()
+    val missions : LiveData<DataState<List<Mission>>>
     get(){
         return _missions
     }
@@ -35,11 +35,10 @@ class MissionDisplayViewModel constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({ missionsResponse ->
-                Log.d("ViewModel", missionsResponse[0].missionName!!)
-                val items = mapper.mapFromList(missionsResponse)
-                _missions.value = items as List<Mission>
+                val items = DataState.success(mapper.mapFromList(missionsResponse))
+                _missions.value = items as DataState<List<Mission>>
             },
-                { t -> Log.d("ViewModel", "${t.message}")}
+                { t -> DataState.error(null, "Error during fetching data: ${t.message}")}
         )
         compositeDisposable.add(missionsDisposable)
 }
